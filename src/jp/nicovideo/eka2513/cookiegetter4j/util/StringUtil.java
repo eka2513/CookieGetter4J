@@ -193,7 +193,7 @@ public class StringUtil {
 		StringBuffer sb = new StringBuffer();
 
 		Long hour = secs / 3600;
-		Long min  = secs / 60;
+		Long min  = (secs % 3600) / 60;
 		Long sec  = secs % 60;
 
 		if (hour > 0)
