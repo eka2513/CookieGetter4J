@@ -135,25 +135,24 @@ public class NicoCookieManagerMacFirefox implements NicoCookieManager {
 	private List<String> parseIni() {
 		List<String> list = new ArrayList<String>();
 		try {
-            FileInputStream is = new FileInputStream(profileIni);
-            InputStreamReader in = new InputStreamReader(is, "UTF-8");
-            BufferedReader reader = new BufferedReader(in);
+			FileInputStream is = new FileInputStream(profileIni);
+			InputStreamReader in = new InputStreamReader(is, "UTF-8");
+			BufferedReader reader = new BufferedReader(in);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-            	if (line.indexOf("Path=") >= 0) {
-            		list.add(line.split("=")[1]);
-            	}
-            }
-            reader.close();
-            in.close();
-            is.close();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (line.indexOf("Path=") >= 0) {
+					list.add(line.split("=")[1]);
+				}
+			}
+			reader.close();
+			in.close();
+			is.close();
 		} catch (IOException e) {
 			throw new NicoCookieException(e);
 		}
 		return list;
 	}
-
 
 	/**
 	 * basedirを設定します。

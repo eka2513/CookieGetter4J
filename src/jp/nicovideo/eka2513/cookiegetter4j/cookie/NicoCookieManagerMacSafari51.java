@@ -38,19 +38,19 @@ public class NicoCookieManagerMacSafari51 implements NicoCookieManager {
 	 * @return
 	 */
 	private String getSessionCookieValue(String filename) {
-        StringBuffer sb = new StringBuffer();
+		StringBuffer sb = new StringBuffer();
 		try {
-            FileInputStream is = new FileInputStream(filename);
-            InputStreamReader in = new InputStreamReader(is, "latin1");
-            BufferedReader reader = new BufferedReader(in);
+			FileInputStream is = new FileInputStream(filename);
+			InputStreamReader in = new InputStreamReader(is, "latin1");
+			BufferedReader reader = new BufferedReader(in);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-            	sb.append(line);
-            }
-            reader.close();
-            in.close();
-            is.close();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+			}
+			reader.close();
+			in.close();
+			is.close();
 		} catch (IOException e) {
 			throw new NicoCookieException(e);
 		}

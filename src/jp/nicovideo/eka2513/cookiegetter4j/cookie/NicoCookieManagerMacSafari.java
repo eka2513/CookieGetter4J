@@ -41,19 +41,19 @@ public class NicoCookieManagerMacSafari implements NicoCookieManager {
 	@Override
 	public NicoCookie getSessionCookie() {
 		NicoCookie result = null;
-        StringBuffer sb = new StringBuffer();
+		StringBuffer sb = new StringBuffer();
 		try {
-            FileInputStream is = new FileInputStream(filePath);
-            InputStreamReader in = new InputStreamReader(is, "UTF-8");
-            BufferedReader reader = new BufferedReader(in);
+			FileInputStream is = new FileInputStream(filePath);
+			InputStreamReader in = new InputStreamReader(is, "UTF-8");
+			BufferedReader reader = new BufferedReader(in);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-            	sb.append(line);
-            }
-            reader.close();
-            in.close();
-            is.close();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+			}
+			reader.close();
+			in.close();
+			is.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,15 +62,16 @@ public class NicoCookieManagerMacSafari implements NicoCookieManager {
 		String regex = "<dict>(.*?)</dict>";
 		String[] m = StringUtil.groupMatch(regex, sb.toString());
 		for (String s : m) {
-			if (s.indexOf("<string>.nicovideo.jp</string>") >= 0 &&
-					s.indexOf("<string>user_session</string>") >= 0) {
+			if (s.indexOf("<string>.nicovideo.jp</string>") >= 0
+					&& s.indexOf("<string>user_session</string>") >= 0) {
 				regex = "<[^>]+>([^<]+)</[^>]+>";
 				String[] cookies = StringUtil.groupMatch(regex, s);
-				String k = null; String v = null;
+				String k = null;
+				String v = null;
 				Map<String, String> c = new HashMap<String, String>();
-				for (int i=0; i<cookies.length/2; i++) {
-					k = cookies[i*2];
-					v = cookies[i*2+1];
+				for (int i = 0; i < cookies.length / 2; i++) {
+					k = cookies[i * 2];
+					v = cookies[i * 2 + 1];
 					if (k.equals("Created")) {
 						c.put("created", v);
 					} else if (k.equals("Domain")) {
@@ -85,12 +86,8 @@ public class NicoCookieManagerMacSafari implements NicoCookieManager {
 						c.put("value", v);
 					}
 				}
-				result = new NicoCookie(
-						c.get("host"),
-						c.get("path"),
-						c.get("name"),
-						c.get("value"),
-						c.get("created"),
+				result = new NicoCookie(c.get("host"), c.get("path"),
+						c.get("name"), c.get("value"), c.get("created"),
 						c.get("expires"));
 				break;
 			}
