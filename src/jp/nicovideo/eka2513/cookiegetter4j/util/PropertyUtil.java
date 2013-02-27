@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 import jp.nicovideo.eka2513.cookiegetter4j.constants.NicoCookieConstants;
 
@@ -20,11 +19,19 @@ import jp.nicovideo.eka2513.cookiegetter4j.constants.NicoCookieConstants;
 public class PropertyUtil {
 
 	/**
+	 * linuxかどうかを返します
+	 * @return
+	 */
+	public static boolean isLinux() {
+		return (getOsName().toLowerCase().indexOf("linux") >= 0);
+	}
+	
+	/**
 	 * macosxかどうかを返します
 	 * @return
 	 */
 	public static boolean isMac() {
-		return (getOsName().indexOf("Mac OS X") >= 0);
+		return (getOsName().indexOf("Mac OS X") >= 0) || (getOsName().indexOf("Darwin") >= 0);
 	}
 
 	/**
@@ -101,7 +108,7 @@ public class PropertyUtil {
 		for (int i=0; i<envs.length; i++) {
 			envVal = getEnv(envs[i].replaceAll("%", "")).replaceAll("\\\\", "\\\\\\\\");
 			path = path.replaceAll(
-					Pattern.quote(envs[i]),
+					"¥¥Q" + envs[i] + "¥¥E",
 					StringUtil.null2Val(envVal));
 		}
 

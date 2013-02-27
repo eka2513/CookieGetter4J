@@ -20,10 +20,30 @@ public class NicoCookieManagerFactory {
 			return getMacInstance(browser);
 		} else if (PropertyUtil.isWindows()) {
 			return getWinInstance(browser);
+		} else if (PropertyUtil.isLinux()) {
+			return getLinuxInstance(browser);
+		}
+		throw new RuntimeException("Unknown OS:" + PropertyUtil.getOsName());
+//		return null;
+	}
+
+	/**
+	 * Linux用のNicoCookieManager取得
+	 * @param browser
+	 * @return
+	 */
+	private static NicoCookieManager getLinuxInstance(String browser) {
+		try {
+			if (browser.equals(NicoCookieConstants.BROWSER_CHROME))
+				return NicoCookieManagerLinuxChrome.class.newInstance();
+			if (browser.equals(NicoCookieConstants.BROWSER_FIREFOX))
+				return NicoCookieManagerLinuxFirefox.class.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return null;
 	}
-
 	/**
 	 * Mac用のNicoCookieManager取得
 	 * @param browser
@@ -48,7 +68,7 @@ public class NicoCookieManagerFactory {
 	}
 
 	/**
-	 * Mac用のNicoCookieManager取得
+	 * Win用のNicoCookieManager取得
 	 * @param browser
 	 * @return
 	 */

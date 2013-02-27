@@ -50,7 +50,6 @@ public class NicoCookieManagerMacFirefox implements NicoCookieManager {
 		if (dirlist.size() == 1) {
 			target = basedir + dirlist.get(0) + cookieFile;
 		} else {
-			//�?��あった�?合�?cookie.sqliteの更新日付が�?��新しい�?��にする。よくわからんけど�?			File f = null;
 			long maxlastmodified = 0L;
 			int index = -1;
 			for (int i=0; i<dirlist.size(); i++) {

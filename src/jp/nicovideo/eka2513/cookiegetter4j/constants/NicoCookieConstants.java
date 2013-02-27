@@ -35,4 +35,10 @@ public interface NicoCookieConstants {
 	public static final String[] BROWSERS_MAC = {
 		BROWSER_CHROME, BROWSER_FIREFOX, BROWSER_SAFARI, BROWSER_SAFARI_50_UNDER
 	};
+	/**
+	 * Linux用のブラウザ
+	 */
+	public static final String[] BROWSERS_LINUX = {
+		BROWSER_CHROME, BROWSER_FIREFOX
+	};
 }
