@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.nicovideo.eka2513.cookiegetter4j.constants.NicoCookieConstants;
 import jp.nicovideo.eka2513.cookiegetter4j.exception.NicoCookieException;
 import jp.nicovideo.eka2513.cookiegetter4j.util.PropertyUtil;
 
@@ -72,7 +73,7 @@ public class NicoCookieManagerMacFirefox implements NicoCookieManager {
 	private NicoCookie getCookieFromSqlite(String filename) {
 		NicoCookie result = null;
 		try {
-			Class.forName("org.sqlite.JDBC");
+			Class.forName(NicoCookieConstants.SQLITE_DRIVER);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -83,19 +84,7 @@ public class NicoCookieManagerMacFirefox implements NicoCookieManager {
 			conn = DriverManager.getConnection("jdbc:sqlite:" + filename);
 			Statement stat = conn.createStatement();
 			conn.setAutoCommit(false);
-/*
- 0|id|INTEGER|0||1
-1|baseDomain|TEXT|0||0
-2|name|TEXT|0||0
-3|value|TEXT|0||0
-4|host|TEXT|0||0
-5|path|TEXT|0||0
-6|expiry|INTEGER|0||0
-7|lastAccessed|INTEGER|0||0
-8|creationTime|INTEGER|0||0
-9|isSecure|INTEGER|0||0
-10|isHttpOnly|INTEGER|0||0
-*/
+
 			String sql = "select * from moz_cookies where host = '.nicovideo.jp' and name='user_session'";
 			rs = stat.executeQuery(sql);
 			while (rs.next()) {
@@ -134,10 +123,9 @@ public class NicoCookieManagerMacFirefox implements NicoCookieManager {
 	 */
 	private List<String> parseIni() {
 		List<String> list = new ArrayList<String>();
+		BufferedReader reader = null;
 		try {
-			FileInputStream is = new FileInputStream(profileIni);
-			InputStreamReader in = new InputStreamReader(is, "UTF-8");
-			BufferedReader reader = new BufferedReader(in);
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(profileIni), "UTF-8"));
 
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -145,11 +133,16 @@ public class NicoCookieManagerMacFirefox implements NicoCookieManager {
 					list.add(line.split("=")[1]);
 				}
 			}
-			reader.close();
-			in.close();
-			is.close();
 		} catch (IOException e) {
 			throw new NicoCookieException(e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					throw new NicoCookieException(e);
+				}
+			}
 		}
 		return list;
 	}

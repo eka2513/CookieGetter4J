@@ -57,10 +57,10 @@ public class NicoCookieManagerWinIE implements NicoCookieManager {
 		if (!f.isFile())
 			return null;
 		String result = null;
+		BufferedReader reader = null;
 		try {
-			FileInputStream is = new FileInputStream(f);
-			InputStreamReader in = new InputStreamReader(is, "UTF-8");
-			BufferedReader reader = new BufferedReader(in);
+
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF-8"));
 
 			String line;
 			int index = 0;
@@ -80,11 +80,17 @@ public class NicoCookieManagerWinIE implements NicoCookieManager {
 
 				index++;
 			}
-			reader.close();
-			in.close();
-			is.close();
+
 		} catch (IOException e) {
 			throw new NicoCookieException(e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					throw new NicoCookieException(e);
+				}
+			}
 		}
 		return result;
 	}

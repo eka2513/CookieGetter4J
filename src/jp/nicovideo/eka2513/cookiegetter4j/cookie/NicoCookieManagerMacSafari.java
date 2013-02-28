@@ -42,22 +42,25 @@ public class NicoCookieManagerMacSafari implements NicoCookieManager {
 	public NicoCookie getSessionCookie() {
 		NicoCookie result = null;
 		StringBuffer sb = new StringBuffer();
+		BufferedReader reader = null;
 		try {
-			FileInputStream is = new FileInputStream(filePath);
-			InputStreamReader in = new InputStreamReader(is, "UTF-8");
-			BufferedReader reader = new BufferedReader(in);
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
 
 			String line;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
-			reader.close();
-			in.close();
-			is.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new NicoCookieException(e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					throw new NicoCookieException(e);
+				}
+			}
 		}
 		String regex = "<dict>(.*?)</dict>";
 		String[] m = StringUtil.groupMatch(regex, sb.toString());
@@ -102,5 +105,4 @@ public class NicoCookieManagerMacSafari implements NicoCookieManager {
 	public void setFilePath(String filePath) {
 	    this.filePath = filePath;
 	}
-
 }

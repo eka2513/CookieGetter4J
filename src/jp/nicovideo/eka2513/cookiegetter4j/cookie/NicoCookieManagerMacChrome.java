@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import jp.nicovideo.eka2513.cookiegetter4j.constants.NicoCookieConstants;
 import jp.nicovideo.eka2513.cookiegetter4j.exception.NicoCookieException;
 
 /**
@@ -36,7 +37,7 @@ public class NicoCookieManagerMacChrome implements NicoCookieManager {
 	public NicoCookie getSessionCookie() {
 		NicoCookie result = null;
 		try {
-			Class.forName("org.sqlite.JDBC");
+			Class.forName(NicoCookieConstants.SQLITE_DRIVER);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -61,7 +62,6 @@ public class NicoCookieManagerMacChrome implements NicoCookieManager {
 				break;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new NicoCookieException(e);
 		} finally {
 			try {

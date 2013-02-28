@@ -24,7 +24,6 @@ public class NicoCookieManagerFactory {
 			return getLinuxInstance(browser);
 		}
 		throw new RuntimeException("Unknown OS:" + PropertyUtil.getOsName());
-//		return null;
 	}
 
 	/**
@@ -39,10 +38,9 @@ public class NicoCookieManagerFactory {
 			if (browser.equals(NicoCookieConstants.BROWSER_FIREFOX))
 				return NicoCookieManagerLinuxFirefox.class.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-		return null;
+		throw new RuntimeException("browser:" + browser + " is not supported.");
 	}
 	/**
 	 * Mac用のNicoCookieManager取得
@@ -61,10 +59,9 @@ public class NicoCookieManagerFactory {
 			if (browser.equals(NicoCookieConstants.BROWSER_FIREFOX))
 				return NicoCookieManagerMacFirefox.class.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-		return null;
+		throw new RuntimeException("browser:" + browser + " is not supported.");
 	}
 
 	/**
@@ -83,9 +80,8 @@ public class NicoCookieManagerFactory {
 			if (browser.equals(NicoCookieConstants.BROWSER_IE))
 				return NicoCookieManagerWinIE.class.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-		return null;
+		throw new RuntimeException("browser:" + browser + " is not supported.");
 	}
 }

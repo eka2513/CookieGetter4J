@@ -39,20 +39,25 @@ public class NicoCookieManagerMacSafari51 implements NicoCookieManager {
 	 */
 	private String getSessionCookieValue(String filename) {
 		StringBuffer sb = new StringBuffer();
+		BufferedReader reader = null;
 		try {
-			FileInputStream is = new FileInputStream(filename);
-			InputStreamReader in = new InputStreamReader(is, "latin1");
-			BufferedReader reader = new BufferedReader(in);
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename), "latin1"));
 
 			String line;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
-			reader.close();
-			in.close();
-			is.close();
+
 		} catch (IOException e) {
 			throw new NicoCookieException(e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					throw new NicoCookieException(e);
+				}
+			}
 		}
 		String regex = "user_session\0(user_session[a-zA-Z0-9_]+)\0\\.nicovideo\\.jp\0";
 		return StringUtil.groupMatchFirst(regex, sb.toString());

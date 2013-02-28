@@ -22,6 +22,9 @@ public interface NicoCookieConstants {
 	/** BROWSER_IRON */
 	public static final String BROWSER_IRON    = "Iron";
 
+	/** sqliteのドライバ */
+	public static final String SQLITE_DRIVER = "org.sqlite.JDBC";
+	
 	/**
 	 * Windows用のブラウザ
 	 */
