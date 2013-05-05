@@ -1,7 +1,9 @@
 CookieGetter4J
 ==============
 
-get cookie for several browsers
+ニコ生のCookieをブラウザから取得します。
+
+一応Windows, MacOSX, Linuxに適当に対応しています。
 
 ###Usage###
 >String browser = NicoCookieConstants.BROWSER_CHROME;  
