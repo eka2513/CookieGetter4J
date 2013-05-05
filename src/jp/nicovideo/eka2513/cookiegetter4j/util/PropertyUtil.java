@@ -108,7 +108,7 @@ public class PropertyUtil {
 		for (int i=0; i<envs.length; i++) {
 			envVal = getEnv(envs[i].replaceAll("%", "")).replaceAll("\\\\", "\\\\\\\\");
 			path = path.replaceAll(
-					"¥¥Q" + envs[i] + "¥¥E",
+					"\\Q" + envs[i] + "\\E",
 					StringUtil.null2Val(envVal));
 		}
 
