@@ -25,7 +25,7 @@ public class PropertyUtil {
 	public static boolean isLinux() {
 		return (getOsName().toLowerCase().indexOf("linux") >= 0);
 	}
-	
+
 	/**
 	 * macosxかどうかを返します
 	 * @return
@@ -76,6 +76,8 @@ public class PropertyUtil {
 				if (isWindows())
 					val = parseWindowsEnv(val);
 				if (isMac())
+					val = parseMacHomedir(val);
+				if (isLinux())
 					val = parseMacHomedir(val);
 				map.put(key, val);
 			}
@@ -133,6 +135,8 @@ public class PropertyUtil {
 			return NicoCookieConstants.BROWSERS_MAC;
 		if (isWindows())
 			return NicoCookieConstants.BROWSERS_WIN;
+		if (isLinux())
+			return NicoCookieConstants.BROWSERS_LINUX;
 		return null;
 	}
 }
